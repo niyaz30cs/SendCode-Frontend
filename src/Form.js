@@ -9,6 +9,22 @@ function Form({ header, details, updateHeader, updateDetails }) {
   const [showPrintable, setShowPrintable] = useState(false);
   const [submissionFeedBack, setSubmissionFeedback] = useState(null);
   const [showClearConfirmation, setShowClearConfirmation] = useState(true);
+  const [isPrinting, setIsPrinting] = useState(false);
+  const [isSubmitting, setIsSubmiting] = useState(false);
+  const [currentSection,setCurrentSection]=useState("header")
+
+  const handleSectionChange=(section)=>{
+    setCurrentSection(section);
+  }
+
+  const handlePrintVoucher = () => {
+    if(isPrinting) return;
+    setIsPrinting(true);
+    setTimeout(() => {
+      setIsPrinting(false);
+      setShowPrintable(false);
+    }, 2000)
+  }
   // Implement your form submission logic here
 
   const handleClearForm = () => {
@@ -20,6 +36,12 @@ function Form({ header, details, updateHeader, updateDetails }) {
   }
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setIsSubmiting(true);
+
+    setTimeout(() => {
+      setIsSubmiting(false)
+      setShowPrintable(true);
+    }, 2000);
 
     const isFormValid = () => {
       const headerValues = Object.values(header);
@@ -100,11 +122,19 @@ function Form({ header, details, updateHeader, updateDetails }) {
   return (
     <div className='form-container'>
       <form onSubmit={handleSubmit}>
+        <div className="navigation-buttons">
+          <button className={`navigation-buttons ${currentSection==="header"?"active":""}`} onClick={()=>handleSectionChange("header")}>header</button>
+          <button className={`navigation-buttons ${currentSection==="header"?"active":""}`} onClick={()=>handleSectionChange("details")}>Details</button>
+        </div>
         <div className='form-section'>
           <HeaderSection updateHeader={updateHeader} />
         </div>
         <div className='form-section'>
+          {currentSection==="header"&&<HeaderSection updateHeader={updateHeader}/>}
+          {currentSection==="details"&&(
+
           <DetailSection details={details} updateDetails={updateDetails} />
+          )}
         </div>
         <button type="submit">Submit</button>
         <button className='clear-form-button' type='button' onClick={handleClearForm}>Clear Form</button>
@@ -117,12 +147,29 @@ function Form({ header, details, updateHeader, updateDetails }) {
         </div>
       )}
       {submissionFeedBack && (
-        <div className='submission-feedback'>{submissionFeedBack}</div>
+        <div className={`submission-feedback ${submissionFeedBack.include("sucessfully") ? "success-message" : "errror-message"}`}>{submissionFeedBack}</div>
+      )}
+      {isSubmitting && (
+        <div className='loading-overlay'>
+          <p>loading..</p>
+        </div>
       )}
       {showPrintable && (
-        <PrintableComponent header={header} details={details} />
+        <div className='printable-component'>
+          {isPrinting ? (
+            <div className='loading-spinner-container'>
+              <p>Printing</p>
+            </div>
+          ) : (
+            <>
+
+              <PrintableComponent header={header} details={details} />
+              <button className='printable-button' onClick={handlePrintVoucher}>Print Voucher</button>
+            </>
+          )
+          }
+        </div>
       )}
-      <button className='printable-button' onClick={() => window.print()}>Print Voucher</button>
     </div>
   );
 };
