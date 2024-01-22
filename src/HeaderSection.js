@@ -12,6 +12,20 @@ function HeaderSection({header,updateHeader}) {
       <input
       type='text'
       name='fieldnName'
+      placeholder='fieldName-1'
+      value={header.fieldName||""}
+      onChange={handleHeaderChange}
+       />
+      <input
+      type='text'
+      name='fieldnName'
+      placeholder='fieldName-2'
+      value={header.fieldName||""}
+      onChange={handleHeaderChange}
+       />
+      <input
+      type='text'
+      name='fieldnName'
       value={header.fieldName||""}
       onChange={handleHeaderChange}
        />

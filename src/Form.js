@@ -118,7 +118,6 @@ function Form({ header, details, updateHeader, updateDetails }) {
     }
   }
 
-
   return (
     <div className='form-container'>
       <form onSubmit={handleSubmit}>
@@ -136,7 +135,7 @@ function Form({ header, details, updateHeader, updateDetails }) {
           <DetailSection details={details} updateDetails={updateDetails} />
           )}
         </div>
-        <button type="submit">Submit</button>
+        <button type="submit" onClick={saveDataToDatabase}>Submit</button>
         <button className='clear-form-button' type='button' onClick={handleClearForm}>Clear Form</button>
       </form>
       {showClearConfirmation && (

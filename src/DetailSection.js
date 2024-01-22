@@ -31,6 +31,7 @@ function DetailSection({ details, updateDetails }) {
   };
 
   const handleDetailChange = (index, field, value) => {
+    console.log("Hii");
     setValidationMessage([]);
     setShowRequiredMessage(false);
     if (field === "quantity" || field === "price") {
@@ -47,12 +48,16 @@ function DetailSection({ details, updateDetails }) {
     updateDetails(updatedDetails);
   }
 
-  // Implement your detail UI here
-
   return (
     <div>
       {details.map((detail, index) => (
         <div key={index} className="detail-row">
+          <input
+            type="text"
+            placeholder="Item"
+            value={detail.item}
+            onChange={(e) => handleDetailChange(index, 'item', e.target.value)}
+          />
           <input
             type="text"
             placeholder="Item"

@@ -10,9 +10,10 @@ function App() {
   return (
     <div>
       <Provider store={store}>
-      <HeaderSection/>
-      <Form/>
-     <DetailSection/>
+        <Form>
+          <HeaderSection />
+          <DetailSection />
+        </Form>
       </Provider>
     </div>
   )
